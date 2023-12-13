@@ -183,9 +183,14 @@ export default {
       });
     },
 	validateDescription() {
-            // Allow only letters, spaces, and numbers
-            this.covData.description = this.covData.description.replace(/[^a-zA-Z0-9\s]/g, '');
-        },
+    // Use DOMParser to sanitize HTML tags
+    const parser = new DOMParser();
+    const doc = parser.parseFromString('<div>' + this.selectedCovenant[0].description + '</div>', 'text/html');
+    const sanitizedDescription = doc.body.textContent || "";
+
+    // Allow only letters, spaces, and numbers
+    this.selectedCovenant[0].description = sanitizedDescription.replace(/[^a-zA-Z0-9\s]/g, '');
+},
     removeType(value, id) {
     	var covenantArr = this.covenantDetails.covenantInfo;
 		covenantArr.forEach((alldata,i) => {
