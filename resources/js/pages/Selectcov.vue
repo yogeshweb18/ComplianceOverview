@@ -47,7 +47,7 @@
         <span class="text-90">{{covData.subType}}</span>
     </div>
     <div class="text-left">
-        <textarea v-model="covData.description" :data-rowid="covData.id" class="enter-description" placeholder="Enter description" @input="validateDescription"></textarea>
+        <textarea v-model="covData.description" :data-rowid="covData.id" class="enter-description" placeholder="Enter description" @input="validateDescription" pattern="^[a-zA-Z0-9 ]+$"></textarea>
     </div>
 </td>
 
