@@ -5316,6 +5316,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       'selType': '',
       'customCovenantCount': 1,
       'months': ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      covData: {
+        id: 1,
+        description: ""
+      },
       invalidDescription: false
     };
   },
