@@ -44,9 +44,9 @@
 				            <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
 				               <div class="text-left"><input type="hidden" v-model="covData.subType" /><span class="text-90">{{covData.subType}}</span></div>
 				               <div class="text-left">
-				               	<textarea v-model="covData.description" :data-rowid="covData.id" class="enter-description" placeholder="Enter description" @input="validateDescription" pattern="^[a-zA-Z0-9\s]*$">
+				               	<textarea v-model="covData.description" :data-rowid="covData.id" class="enter-description" placeholder="Enter description">
 				               		
-				               	</textarea><p v-if="invalidDescription">Please enter a valid description.</p>								   
+				               	</textarea>
 				               </div>
 				            </td>
 				            <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
@@ -169,12 +169,7 @@ export default {
       'comp': 'customCovenant',
       'selType': '',
       'customCovenantCount': 1,
-      'months': ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-	  covData: {
-      id: 1,
-      description: "",
-    },
-	  invalidDescription: false,
+      'months': ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     }
   },
   props: ['complianceId','action','covenantId','data'],
@@ -185,14 +180,6 @@ export default {
           this.covenantOptions = response.data;         
       });
     },
-	validateDescription() {
-    const regex = /^[a-zA-Z0-9\s]*$/;
-    if (regex.test(this.covData.description)) {
-      this.invalidDescription = false; 
-    } else {
-      this.invalidDescription = true; 
-    }
-  },
     removeType(value, id) {
     	var covenantArr = this.covenantDetails.covenantInfo;
 		covenantArr.forEach((alldata,i) => {
