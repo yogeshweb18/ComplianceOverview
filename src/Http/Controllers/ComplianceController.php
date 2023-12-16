@@ -407,9 +407,9 @@ class ComplianceController extends Controller
             'endDate' => 'required|date_format:Y-m-d|after:startDate',
             'priority' => 'required',
             'secured' => 'required',
-            'inconsistencyTreatment' => 'required',
+            'inconsistencyTreatment' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
             'clientReference' => 'required',
-            'mailCC' => 'emails',
+            'mailCC' => 'sometimes|nullable|email',
             'files.0' => 'required|file'
         ],
         [
@@ -422,7 +422,7 @@ class ComplianceController extends Controller
         $organization_id = \Auth::user()->organization_id;
         $docnames= [];
         $fileUris = array();
-
+/*
         foreach($request->files as $file) {
             foreach($file as $upload) {
                 
@@ -433,7 +433,7 @@ class ComplianceController extends Controller
                 array_push($fileUris, $name);
             }
         }
-
+*/
         $docnames_json = json_encode($fileUris);
         $compliancetool = new Compliancetool([
             'clcode' => $request->clcode,
@@ -478,7 +478,7 @@ class ComplianceController extends Controller
             'endDate' => 'required|date_format:Y-m-d|after:startDate',
             'priority' => 'required',
             'secured' => 'required',
-            'inconsistencyTreatment' => 'required',
+            'inconsistencyTreatment' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
             'clientReference' => 'required',
             'mailCC' => 'emails'
         ]);
