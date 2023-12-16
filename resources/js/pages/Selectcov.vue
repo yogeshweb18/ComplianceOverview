@@ -41,16 +41,14 @@
 				      <tbody>
 				         <tr dusk="3-row" class="group" v-for="(covData,index) in details" >
 				            <td class="py-2 border-t border-gray-100 dark:border-gray-700 px-2 cursor-pointer td-fit pl-5 pr-5 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"><input type="checkbox" name="selectCov[]" :id="covData.id" class="checkbox" @change="check($event)" aria-label="Select Resource 3" data-testid="clients-items-0-checkbox" dusk="3-checkbox" v-model="covData.selectedCovenant"></td>
-							<td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
-    <div class="text-left">
-        <input type="hidden" v-model="covData.subType" />
-        <span class="text-90">{{covData.subType}}</span>
-    </div>
-    <div class="text-left">
-        <textarea v-model="covData.description" :data-rowid="covData.id" class="enter-description" placeholder="Enter description" @input="validateDescription" pattern="^[a-zA-Z0-9 ]+$"></textarea>
-    </div>
-</td>
-
+				            <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
+				               <div class="text-left"><input type="hidden" v-model="covData.subType" /><span class="text-90">{{covData.subType}}</span></div>
+				               <div class="text-left">
+				               	<textarea v-model="covData.description" :data-rowid="covData.id" class="enter-description" placeholder="Enter description">
+				               		
+				               	</textarea>
+				               </div>
+				            </td>
 				            <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
 				               <div class="text-left">
 				               	<input type="text" placeholder="" name="covfrequency" class="w-full form-control form-input form-input-bordered" id="description" dusk="description" v-model="covData.comment" />
@@ -182,15 +180,6 @@ export default {
           this.covenantOptions = response.data;         
       });
     },
-	validateDescription() {
-    // Use DOMParser to sanitize HTML tags
-    const parser = new DOMParser();
-    const doc = parser.parseFromString('<div>' + this.selectedCovenant[0].description + '</div>', 'text/html');
-    const sanitizedDescription = doc.body.textContent || "";
-
-    // Allow only letters, spaces, and numbers
-    this.selectedCovenant[0].description = sanitizedDescription.replace(/[^a-zA-Z0-9\s]/g, '');
-},
     removeType(value, id) {
     	var covenantArr = this.covenantDetails.covenantInfo;
 		covenantArr.forEach((alldata,i) => {
