@@ -45,7 +45,8 @@
 				               <div class="text-left"><input type="hidden" v-model="covData.subType" /><span class="text-90">{{covData.subType}}</span></div>
 				               <div class="text-left">
 				               	<input v-model="covData.description" :data-rowid="covData.id" class="enter-description border" placeholder="Enter description" >
-				               
+								   <span v-if="covData.error" class="text-danger">{{ covData.error }}</span>
+
 							</div> 
 				            </td>
 				            <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
@@ -211,7 +212,16 @@ export default {
 	        	console.log(response.data);
               //this.$emit('clicked', 'timelines',response.data.complianceId,response.data.covenantIds);
               window.location.href="/admin/covenants?id="+response.data.complianceId;
-            }          
+			} else {
+                // Handle validation errors
+                if (response.data.error && response.data.error.description) {
+                    // Assuming there's an error message for the 'description' field
+                    // You can customize the error handling here
+                    const descriptionError = response.data.error.description;
+                    // Assuming you have a covData object in your component
+                    this.covData.error = descriptionError; // Assuming you have a data property 'error' in covData
+                } 
+			}        
 	    });
     },
     check(e) {

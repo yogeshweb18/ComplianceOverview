@@ -761,7 +761,9 @@ class ComplianceController extends Controller
                     $cleanedDescription = strip_tags($covenantInfo[$key]['description']);
                    
                     if ($validator->fails()) {
-                        // Handle validation errors
+                        $errors = $validator->errors()->toArray();
+                        $descriptionError = $errors['description'][0];
+                        //dd($descriptionError);
                     } else {
                         // Continue with your logic
                     }
@@ -835,6 +837,7 @@ class ComplianceController extends Controller
         }
 
         $result['status'] = $saveStatus;
+        $result['error'] = $errors;
         $result['complianceId'] = $submittedData['complianceId'];        
 
         echo json_encode($result);die;
