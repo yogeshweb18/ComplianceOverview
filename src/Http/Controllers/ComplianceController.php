@@ -757,11 +757,12 @@ class ComplianceController extends Controller
                         'description' => ['required', 'string', 'max:255', 'no_angle_brackets'],
                         
                     ]);                                      
-                    
+                    $cleanedDescription = strip_tags($covenantInfo[$key]['description']);
+
                     $covenantData['complianceId'] = $submittedData['complianceId'];
                     $covenantData['type'] = $covenantInfo[$key]['type'];
                     $covenantData['subType'] = $covenantInfo[$key]['subType'];
-                    $covenantData['description'] = $covenantInfo[$key]['description']; 
+                    $covenantData['description'] = $cleanedDescription; 
 
                     if(isset($submittedData['referenceCovenantId']) && $submittedData['referenceCovenantId'] != '')
                         $covenantData['associated_covenant_id'] = $submittedData['referenceCovenantId'];
@@ -826,7 +827,6 @@ class ComplianceController extends Controller
         }
 
         $result['status'] = $saveStatus;
-        $result['error'] = $errors;
         $result['complianceId'] = $submittedData['complianceId'];        
 
         echo json_encode($result);die;
