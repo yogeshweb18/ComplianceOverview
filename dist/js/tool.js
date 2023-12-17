@@ -7609,7 +7609,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             return covData.description = $event;
           },
           "data-rowid": covData.id,
-          "class": "enter-description",
+          "class": "enter-description border",
           placeholder: "Enter description"
         }, "\r\n\t\t\t\t               \t\t\r\n\t\t\t\t               \t", 8
         /* PROPS */
