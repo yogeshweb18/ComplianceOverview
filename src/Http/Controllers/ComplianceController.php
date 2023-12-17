@@ -23,6 +23,8 @@ use Aws\Credentials\AssumeRoleCredentialProvider;
 use Aws\S3\S3Client;
 use Aws\Sts\StsClient;
 //use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Validator;
+
 
 class ComplianceController extends Controller
 {
@@ -407,9 +409,9 @@ class ComplianceController extends Controller
             'endDate' => 'required|date_format:Y-m-d|after:startDate',
             'priority' => 'required',
             'secured' => 'required',
-            'inconsistencyTreatment' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
+            'inconsistencyTreatment' => 'required',
             'clientReference' => 'required',
-            'mailCC' => 'sometimes|nullable|email',
+            'mailCC' => 'emails',
             'files.0' => 'required|file'
         ],
         [
@@ -478,7 +480,7 @@ class ComplianceController extends Controller
             'endDate' => 'required|date_format:Y-m-d|after:startDate',
             'priority' => 'required',
             'secured' => 'required',
-            'inconsistencyTreatment' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
+            'inconsistencyTreatment' => 'required',
             'clientReference' => 'required',
             'mailCC' => 'emails'
         ]);
@@ -731,6 +733,10 @@ class ComplianceController extends Controller
 
     public function saveCovenantData(Request $request) 
     {
+        Validator::extend('no_angle_brackets', function ($attribute, $value, $parameters, $validator) {
+            return !str_contains($value, ['<', '>']);
+        });
+
         $submittedData = $request->all();
         $saveStatus = 'success';
 //print_r($request->all());die;
@@ -745,10 +751,27 @@ class ComplianceController extends Controller
             foreach($covenantInfo as $key=>$value) {
                 if(isset($covenantInfo[$key]['selectedCovenant']) && $covenantInfo[$key]['selectedCovenant'] == true) {
                     $covenantData = [];
+
+
+                    $validator = Validator::make($request->all(), [
+                        'description' => ['required', 'string', 'max:255', 'no_angle_brackets'],
+                        
+                    ]);
+                                        
+                    $cleanedDescription = strip_tags($covenantInfo[$key]['description']);
+                   
+                    if ($validator->fails()) {
+                        // Handle validation errors
+                    } else {
+                        // Continue with your logic
+                    }
+                    
+
                     $covenantData['complianceId'] = $submittedData['complianceId'];
                     $covenantData['type'] = $covenantInfo[$key]['type'];
                     $covenantData['subType'] = $covenantInfo[$key]['subType'];
-                    $covenantData['description'] = $covenantInfo[$key]['description'];
+                    $covenantData['description'] = $cleanedDescription;
+
                     if(isset($submittedData['referenceCovenantId']) && $submittedData['referenceCovenantId'] != '')
                         $covenantData['associated_covenant_id'] = $submittedData['referenceCovenantId'];
                     if(isset($covenantInfo[$key]['isCustomCovenant']) && $covenantInfo[$key]['isCustomCovenant'] == 1)
