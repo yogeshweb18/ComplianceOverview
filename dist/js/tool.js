@@ -7625,7 +7625,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           },
           "data-rowid": covData.id,
           "class": "enter-description border",
-          placeholder: "Enter description"
+          placeholder: "Enter description",
+          pattern: "^[a-zA-Z0-9\\s]+$"
         }, null, 8
         /* PROPS */
         , _hoisted_23), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, covData.description]]), covData.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(covData.error), 1
