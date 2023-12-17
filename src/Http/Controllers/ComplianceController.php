@@ -734,7 +734,8 @@ class ComplianceController extends Controller
     public function saveCovenantData(Request $request) 
     {
         Validator::extend('no_angle_brackets', function ($attribute, $value, $parameters, $validator) {
-            return !str_contains($value, ['<', '>']);
+           
+            return preg_match('/^[a-zA-Z0-9\s]+$/', $value);
         });
 
         $submittedData = $request->all();
@@ -746,7 +747,6 @@ class ComplianceController extends Controller
         };
         $covenantChild = [];
         $standardCovenantDetails = array_reduce($submittedData['covenantInfo'], $reduce);
-//print_r($standardCovenantDetails);die;
         foreach($standardCovenantDetails as $covenantInfo) {
             foreach($covenantInfo as $key=>$value) {
                 if(isset($covenantInfo[$key]['selectedCovenant']) && $covenantInfo[$key]['selectedCovenant'] == true) {
@@ -756,23 +756,12 @@ class ComplianceController extends Controller
                     $validator = Validator::make($request->all(), [
                         'description' => ['required', 'string', 'max:255', 'no_angle_brackets'],
                         
-                    ]);
-                                        
-                    $cleanedDescription = strip_tags($covenantInfo[$key]['description']);
-                   
-                    if ($validator->fails()) {
-                        $errors = $validator->errors()->toArray();
-                        $descriptionError = $errors['description'][0];
-                        //dd($descriptionError);
-                    } else {
-                        // Continue with your logic
-                    }
+                    ]);                                      
                     
-
                     $covenantData['complianceId'] = $submittedData['complianceId'];
                     $covenantData['type'] = $covenantInfo[$key]['type'];
                     $covenantData['subType'] = $covenantInfo[$key]['subType'];
-                    $covenantData['description'] = $cleanedDescription;
+                    $covenantData['description'] = $covenantInfo[$key]['description']; 
 
                     if(isset($submittedData['referenceCovenantId']) && $submittedData['referenceCovenantId'] != '')
                         $covenantData['associated_covenant_id'] = $submittedData['referenceCovenantId'];
