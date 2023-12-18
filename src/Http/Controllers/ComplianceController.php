@@ -755,13 +755,8 @@ class ComplianceController extends Controller
 
                     $validator = Validator::make($request->all(), [
                         'description' => ['required', 'string', 'max:255', 'no_angle_brackets'],
-<<<<<<< HEAD
-                        'comments' => ['nullable', 'string', 'max:255','no_angle_brackets'],
-                        'targetValue' => ['nullable', 'numeric','no_angle_brackets'], 
-=======
                         'comments' => ['nullable', 'string', 'max:255', 'no_angle_brackets'],
                         'targetValue' => ['nullable', 'numeric', 'no_angle_brackets'],
->>>>>>> appsec1
                         
                     ]);                                      
                     $cleanedDescription = strip_tags($covenantInfo[$key]['description']);
