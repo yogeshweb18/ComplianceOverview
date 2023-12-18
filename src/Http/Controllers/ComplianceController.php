@@ -755,8 +755,13 @@ class ComplianceController extends Controller
 
                     $validator = Validator::make($request->all(), [
                         'description' => ['required', 'string', 'max:255', 'no_angle_brackets'],
+<<<<<<< HEAD
                         'comments' => ['nullable', 'string', 'max:255','no_angle_brackets'],
                         'targetValue' => ['nullable', 'numeric','no_angle_brackets'], 
+=======
+                        'comments' => ['nullable', 'string', 'max:255', 'no_angle_brackets'],
+                        'targetValue' => ['nullable', 'numeric', 'no_angle_brackets'],
+>>>>>>> appsec1
                         
                     ]);                                      
                     $cleanedDescription = strip_tags($covenantInfo[$key]['description']);
@@ -775,15 +780,12 @@ class ComplianceController extends Controller
                     $covenantData['frequency'] = $covenantInfo[$key]['frequency'];
                     $cleanedTargetValue = isset($covenantInfo[$key]['targetValue']) ? strip_tags($covenantInfo[$key]['targetValue']) : null;
                     $covenantData['targetValue'] = $cleanedTargetValue;
-
                     $covenantData['startDate'] = $covenantInfo[$key]['startDate'];
                     $covenantData['applicableMonth'] = $covenantInfo[$key]['applicableMonth'];
                     $covenantData['dueDate'] = $covenantInfo[$key]['dueDate'];
-
                     $cleanedComments = isset($covenantInfo[$key]['comment']) ? strip_tags($covenantInfo[$key]['comment']) : '';
                     $covenantData['comments'] = $cleanedComments;
 
-                    dd($covenantData['comments']);
                     $covenantParameters = [];
                     if(isset($covenantInfo[$key]['covenantParameters']) && !empty($covenantInfo[$key]['covenantParameters']))
                         $covenantParameters = $covenantInfo[$key]['covenantParameters'];
@@ -796,26 +798,41 @@ class ComplianceController extends Controller
                         ]);
                         $cleanedValue = strip_tags($value['value']);
 
-                        $covenantData['custom_value'] = $cleanedValue;//$value['value'];
+                        $covenantData['custom_value'] = $cleanedValue; //$value['value'];
                     }
 
                     $covenantChild = $covenantInfo[$key]['childCovenant'];
 
                     foreach($covenantChild as $childkey=>$value) {
                         $covenantData[$value['key']] = $value['label'];
-                        $covenantData['custom_child_dueDate'] = $value['value'];
+                        $validator->addRules([
+                            $value['value'] => ['required', 'string', 'max:255'],
+                        ]);
+                        $cleanedValue = strip_tags($value['value']);
+
+                        $covenantData['custom_child_dueDate'] = $cleanedValue; //$value['value'];
                     }
                   }
                   else {
                     foreach($covenantParameters as $paramkey=>$value) {
-                        $covenantData[$value['key']] = $value['value'];
+                        $validator->addRules([
+                            $value['value'] => ['required', 'string', 'max:255'],
+                        ]);
+                        $cleanedValue = strip_tags($value['value']);
+
+                        $covenantData[$value['key']] = $cleanedValue; //$value['value'];
                     }
 
                     $covenantChild = $covenantInfo[$key]['childCovenant'] ? $covenantInfo[$key]['childCovenant'] : [];
 
 
                     foreach($covenantChild as $childkey=>$value) {
-                        $covenantData[$value['key']] = $value['value'];
+                        $validator->addRules([
+                            $value['value'] => ['required', 'string', 'max:255'],
+                        ]);
+                        $cleanedValue = strip_tags($value['value']);
+
+                        $covenantData[$value['key']] = $cleanedValue; //$value['value'];
                     }
                  }
 
