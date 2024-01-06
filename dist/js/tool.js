@@ -7154,7 +7154,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "inconsistencyTreatment",
     dusk: "inconsistencyTreatment",
     required: "required",
-    pattern: "^[a-zA-Z0-9 ]+$"
+    pattern: "^[a-zA-Z0-9.,\\- ]+$"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.compliance.inconsistencyTreatment]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [_hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
