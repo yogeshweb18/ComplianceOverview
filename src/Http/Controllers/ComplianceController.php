@@ -409,7 +409,7 @@ class ComplianceController extends Controller
             'endDate' => 'required|date_format:Y-m-d|after:startDate',
             'priority' => 'required',
             'secured' => 'required',
-            'inconsistencyTreatment' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
+            'inconsistencyTreatment' => 'required|regex:/^[a-zA-Z0-9.,\/\" \-]+$/',
             'clientReference' => 'required',
             'mailCC' => 'emails',
             'files.0' => 'required|file'
