@@ -1249,7 +1249,7 @@ class ComplianceController extends Controller
                             'reminderBefore' => $reminder_before,
                             'reminderInterval' => $reminder_interval,
                         ]);
-                        $complianceInstance->status = 'Not Started';//'Pending For Approval';// 'Not Started';
+                        $complianceInstance->status ='Pending For Approval';// 'Not Started';
                         $complianceInstance->save();
                         $complianceInstanceId = $complianceInstance->id;
 

@@ -409,7 +409,7 @@ class ComplianceController extends Controller
             'endDate' => 'required|date_format:Y-m-d|after:startDate',
             'priority' => 'required',
             'secured' => 'required',
-            'inconsistencyTreatment' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
+            'inconsistencyTreatment' => 'required|regex:/^[a-zA-Z0-9\s,./"-]+$/',
             'clientReference' => 'required',
             'mailCC' => 'emails',
             'files.0' => 'required|file'
@@ -735,7 +735,7 @@ class ComplianceController extends Controller
     {
         Validator::extend('no_angle_brackets', function ($attribute, $value, $parameters, $validator) {
           
-            $regexCheck = preg_match('/^[a-zA-Z0-9\s]+$/', $value);       
+            $regexCheck = preg_match('/^[a-zA-Z0-9\s,./"-]+$/', $value);       
            
             $strContainsCheck = !str_contains($value, ['<', '>']);
        
@@ -834,21 +834,19 @@ class ComplianceController extends Controller
                         $covenantData[$value['key']] = $cleanedValue; //$value['value'];
                     }
                  }
-		   // dd($covenantData);
-		    $complianceCovenant = new ComplianceCovenant($covenantData);
+
+                    $complianceCovenant = new ComplianceCovenant($covenantData);
 
                     $complianceCovenant->save();
-//dd($complianceCovenant->id);
+
                     if(!$complianceCovenant->id || $complianceCovenant->id == 0) {
 
                         $saveStatus = 'fail';
                     } else {
                         //$inserted_ids[] = $complianceCovenant->id;
                         $covenantData['covenant_id'] = $complianceCovenant->id;
-  
-			$covenantDataResponse = $this->saveTimelines($covenantData,$covenantChild);
-//dd($covenantDataResponse);
-			if($covenantDataResponse == false)
+                        $covenantDataResponse = $this->saveTimelines($covenantData,$covenantChild);
+                        if($covenantDataResponse == false)
                             $saveStatus = 'fail';
                         else
                             $saveStatus = 'success';
@@ -1061,12 +1059,12 @@ class ComplianceController extends Controller
 
             $month1 = date('m', $ts1);
             $month2 = date('m', $ts2);
-//dd($endDate);
+
             $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
-//dd($diff);	    
-	    $no_of_instances =  $diff/12;
-//dd($no_of_instances);	    
-	    for($i=1;$i<=$no_of_instances;$i++) {
+
+            $no_of_instances =  $diff/1;
+            
+            for($i=1;$i<=$no_of_instances;$i++) {
                 $instances[$i]['instanceNo'] = $i;
                 $dueDate = strtotime('+1 months', $ts1);
                 $instances[$i]['dueDate'] = date('Y-m-d',$dueDate);
@@ -1176,15 +1174,13 @@ class ComplianceController extends Controller
         //print_r($childData);die;
         try {
         $covenantInfo['instances'] = $this->getInstances($covenantInfo['frequency'],$covenantInfo['startDate'],$covenantInfo['dueDate'],$covenantInfo['applicableMonth']);
-   
-	$status = 'fail';
+        $status = 'fail';
         $default_reminder_before = 15;
         $default_reminder_interval = 5;
         $reminder_interval = (isset($covenantInfo['reminder']['interval'])) ? $covenantInfo['reminder']['interval'] : $default_reminder_interval;
         $reminder_before = (isset($covenantInfo['reminder']['before'])) ? $covenantInfo['reminder']['before'] : $default_reminder_before;
         //$activateBefore = (isset($covenantInfo['activateBefore'])) ? $covenantInfo['activateBefore'] : 30;
-       
-	$instanceNo = 1;
+        $instanceNo = 1;
         foreach($covenantInfo['instances'] as $key=>$instances) {
             $ts1 = strtotime('-'.$instances['activateBefore'].' days',strtotime($instances['dueDate']));
             $activateDate = date('Y-m-d',$ts1);
@@ -1199,17 +1195,18 @@ class ComplianceController extends Controller
                 'reminderBefore' => $reminder_before,
                 'reminderInterval' => $reminder_interval,
             ]);
-            $complianceInstance->status = 'Pending For Approval';//'Not Started';
+            $complianceInstance->status = 'Not Started';
+
             $complianceInstance->save();
+
             $complianceInstanceId = $complianceInstance->id;
-	    
-	    if($complianceInstanceId && $complianceInstanceId > 0) {
+
+            if($complianceInstanceId && $complianceInstanceId > 0) {
                 $status = 'success';
                 $noOfReminders = 0;
                 $reminderDateTsp = strtotime('-'.$reminder_before.' days',strtotime($instances['dueDate']));
                 $noOfReminders = intdiv($reminder_before, $reminder_interval);
-	
-		for($i=0;$i<$noOfReminders;$i++) {
+                for($i=0;$i<$noOfReminders;$i++) {
                     $reminderDate = date('Y-m-d',$reminderDateTsp);
                     $complianceReminder = new ComplianceReminder([
                         'instance_id' => $complianceInstanceId,
@@ -1221,8 +1218,8 @@ class ComplianceController extends Controller
                     $complianceReminder->save();
                     
                     $reminderDateTsp = strtotime('+'.$reminder_interval.' days',$reminderDateTsp);
-		
-		}
+
+                }
             }
             $instanceNo++;
         }
@@ -1232,10 +1229,8 @@ class ComplianceController extends Controller
                     /*$ts1 = strtotime('-'.$activateBefore.' days',strtotime($child['value']));
                     $activateDate = date('Y-m-d',$ts1);
                     $applicableMonth = date('F', strtotime($child['value']));*/
-		//	$child['instances'] = $this->getInstances('One time','',$child['value'],'');// Event Based
-			$child['instances'] = $this->getInstances('Event Based','',$child['value'],'');
-    
-			$instanceNo = 1;
+                    $child['instances'] = $this->getInstances('One time','',$child['value'],'');
+                    $instanceNo = 1;
                     foreach ($child['instances'] as $value) {
                         $complianceInstance = new ComplianceInstance([
                             'complianceId' => $covenantInfo['complianceId'],
@@ -1244,13 +1239,15 @@ class ComplianceController extends Controller
                             'activateDate' => $value['activateDate'],
                             'dueDate' => $value['dueDate'],
                             'is_child' => true,
-                           
+                            'child_label' => $child['label'],
                             'applicableMonth' => $value['applicableMonth'],
                             'reminderBefore' => $reminder_before,
                             'reminderInterval' => $reminder_interval,
                         ]);
-                        $complianceInstance->status = 'Not Started';//'Pending For Approval';// 'Not Started';
+                        $complianceInstance->status = 'Not Started';
+
                         $complianceInstance->save();
+
                         $complianceInstanceId = $complianceInstance->id;
 
                         if(!$complianceInstanceId || $complianceInstanceId < 0) {
@@ -1279,8 +1276,7 @@ class ComplianceController extends Controller
                         $instanceNo++;
                     }
                 }
-	    }
-
+            }
             return true;
         }
         catch(Exception $e)
