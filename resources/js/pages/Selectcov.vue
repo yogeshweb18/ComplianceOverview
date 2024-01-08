@@ -44,7 +44,7 @@
 				            <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
 				               <div class="text-left"><input type="hidden" v-model="covData.subType" /><span class="text-90">{{covData.subType}}</span></div>
 				               <div class="text-left">
-				               	<input v-model="covData.description" :data-rowid="covData.id" class="enter-description border" placeholder="Enter description" pattern="^[a-zA-Z0-9\s]+$">
+				               	<input v-model="covData.description" :data-rowid="covData.id" class="enter-description border" placeholder="Enter description" pattern='^[a-zA-Z0-9.,\/\" \-]+$'>
 								   
 							</div> 
 				            </td>
