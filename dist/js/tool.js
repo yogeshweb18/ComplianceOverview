@@ -7154,7 +7154,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "inconsistencyTreatment",
     dusk: "inconsistencyTreatment",
     required: "required",
-    pattern: "^[a-zA-Z0-9.,\\- ]+$"
+    pattern: "^[a-zA-Z0-9.,\\/\\\" \\-]+$"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.compliance.inconsistencyTreatment]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [_hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -7611,7 +7611,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "data-rowid": covData.id,
           "class": "enter-description border",
           placeholder: "Enter description",
-          pattern: "^[a-zA-Z0-9\\s]+$"
+          pattern: "^[a-zA-Z0-9.,\\/\\\" \\-]+$"
         }, null, 8
         /* PROPS */
         , _hoisted_23), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, covData.description]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -9557,7 +9557,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     dusk: "inconsistencyTreatment",
     list: "name-list",
     required: "required",
-    pattern: "^[a-zA-Z0-9.,\\- ]+$"
+    pattern: "^[a-zA-Z0-9.,\\/\\\" \\-]+$"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.compliance.inconsistencyTreatment]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
